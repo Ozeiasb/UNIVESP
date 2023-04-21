@@ -1,0 +1,171 @@
+# Sistema de pré triagem de pacientes
+
+# Definir os critérios de triagem e suas pontuações
+critérios = {
+    "Dor no peito": 5,
+    "Dificuldade para respirar": 4,
+    "Desmaio": 3,
+    "Dor de cabeça": 2,
+    "Dor de estômago": 1
+}
+
+# Obter informações do paciente
+nome = input("Digite o nome do paciente: ")
+idade = int(input("Digite a idade do paciente: "))
+queixas = input("Digite as queixas do paciente (separadas por vírgulas): ").split(",")
+sinais_vitais = input("Digite os sinais vitais do paciente (separados por vírgulas - ex: pressão arterial, frequência cardíaca): ").split(",")
+
+# Calcular a pontuação do paciente com base nas queixas
+pontuacao = 0
+for queixa in queixas:
+    if queixa in critérios:
+        pontuacao += critérios[queixa]
+
+# Imprimir a pontuação do paciente
+print(f"A pontuação do paciente {nome} é {pontuacao}")
+
+# Classificar o paciente em diferentes níveis de prioridade
+if pontuacao >= 5:
+    print("Paciente em estado grave - encaminhar imediatamente para o pronto-socorro!")
+elif pontuacao >= 3:
+    print("Paciente em estado moderado - encaminhar para atendimento médico em até 1 hora.")
+else:
+    print("Paciente em estado leve - agendar atendimento médico em até 24 horas.")
+
+-------------------------------------------------------------------------------------------------
+
+# Importar a biblioteca para trabalhar com expressões regulares
+import re
+
+# Definir uma função para realizar a triagem
+def triagem():
+    # Perguntar ao paciente se ele apresenta febre
+    temperatura = float(input("Qual é a sua temperatura? "))
+    if temperatura > 37.5:
+        print("Você pode estar com febre. Por favor, aguarde para uma triagem mais detalhada.")
+    else:
+        # Perguntar ao paciente sobre outros sintomas
+        sintomas = input("Você está com tosse, dor de garganta ou dificuldade para respirar? ")
+        if re.search("(tosse|garganta|respirar)", sintomas):
+            print("Você pode apresentar sintomas de Covid-19. Por favor, aguarde para uma triagem mais detalhada.")
+        else:
+            # Perguntar ao paciente sobre o histórico de viagens recentes
+            historico = input("Você viajou recentemente para alguma região afetada pela Covid-19? ")
+            if re.search("(sim|s|S|SIM)", historico):
+                print("Você pode ter sido exposto ao vírus. Por favor, aguarde para uma triagem mais detalhada.")
+            else:
+                # Perguntar ao paciente se teve contato com alguém com sintomas de Covid-19
+                contato = input("Você teve contato com alguém que apresentou sintomas de Covid-19 nos últimos 14 dias? ")
+                if re.search("(sim|s|S|SIM)", contato):
+                    print("Você pode ter sido exposto ao vírus. Por favor, aguarde para uma triagem mais detalhada.")
+                else:
+                    print("Você parece estar bem. Por favor, siga as orientações do seu médico caso apresente sintomas ou se sentir mal.")
+
+
+-------------------------------------------------------------------------------------------------
+import requests
+import json
+
+# Informações do paciente
+cpf = '12345678900'
+nome = 'João da Silva'
+idade = 45
+queixas = ['Dor no peito', 'Dificuldade para respirar']
+sinais_vitais = {'pressão arterial': '120/80', 'frequência cardíaca': '80'}
+
+# Chave de acesso à API do SUS
+chave_sus = 'sua_chave_de_acesso'
+
+# URL da API do SUS para consulta de informações de pacientes
+url_sus = 'https://api-consulta-sus.saude.gov.br/doc/api/fhir/r4'
+
+# Montar a query para buscar o paciente pelo CPF
+query = f'{url_sus}/Patient?identifier={cpf}&apikey={chave_sus}'
+
+# Enviar a query para a API do SUS
+response = requests.get(query)
+
+# Verificar se o paciente foi encontrado
+if response.status_code == 200:
+    # Extrair as informações do paciente da resposta da API
+    paciente = json.loads(response.content)['entry'][0]['resource']
+    nome_completo = paciente['name'][0]['given'][0] + ' ' + paciente['name'][0]['family']
+    data_nascimento = paciente['birthDate']
+    sexo = paciente['gender']
+    endereco = paciente['address'][0]['text']
+    
+    # Calcular a pontuação do paciente com base nas queixas
+    pontuacao = 0
+    for queixa in queixas:
+        if queixa in critérios:
+            pontuacao += critérios[queixa]
+
+    # Classificar o paciente em diferentes níveis de prioridade
+    if pontuacao >= 5:
+        prioridade = 'Grave'
+    elif pontuacao >= 3:
+        prioridade = 'Moderada'
+    else:
+        prioridade = 'Leve'
+
+    # Imprimir as informações do paciente e a classificação de prioridade
+    print(f"Nome completo: {nome_completo}")
+    print(f"Data de nascimento: {data_nascimento}")
+    print(f"Sexo: {sexo}")
+    print(f"Endereço: {endereco}")
+    print(f"Queixas: {queixas}")
+    print(f"Sinais vitais: {sinais_vitais}")
+    print(f"Pontuação: {pontuacao}")
+    print(f"Prioridade: {prioridade}")
+else:
+    # Caso o paciente não seja encontrado, informar ao usuário
+    print(f"Paciente com CPF {cpf} não encontrado na base de dados do SUS.")
+
+
+# Fim do programa
+
+---------------------------------------------------------------------------------
+
+import tensorflow as tf
+from tensorflow import keras
+import numpy as np
+
+# Importando modelo pré-treinado
+model = keras.models.load_model('modelo.h5')
+
+# Carregando dados para classificação
+imagens = np.array([imagem1, imagem2, imagem3, ...])
+
+# Pré-processando as imagens
+imagens_preprocessadas = preprocessamento(imagens)
+
+# Realizando a classificação
+predicoes = model.predict(imagens_preprocessadas)
+
+# Imprimindo as predições
+print(predicoes)
+
+
+---------------------------------------------------------------------------------
+minha_lista = [1, 2, 3, 4, 5]
+for numero in minha_lista:
+    print(numero)
+def soma(a, b):
+    return a + b
+class Pessoa:
+    def __init__(self, nome, idade):
+        self.nome = nome
+        self.idade = idade
+    
+    def mostrar_nome(self):
+        print(f"Meu nome é {self.nome}")
+from flask import Flask
+
+app = Flask(__name__)
+
+@app.route('/')
+def index():
+    return 'Hello, World!'
+
+if __name__ == '__main__':
+    app.run(debug=True)

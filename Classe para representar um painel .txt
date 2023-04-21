@@ -1,0 +1,153 @@
+// Classe para representar um painel solar
+class PainelSolar {
+  constructor(potenciaMaxima, eficiencia) {
+    this.potenciaMaxima = potenciaMaxima;
+    this.eficiencia = eficiencia;
+  }
+
+  // Método para calcular a energia gerada pelo painel em um dia
+  calcularEnergiaGerada(duracaoDoDia) {
+    return this.potenciaMaxima * this.eficiencia * duracaoDoDia;
+  }
+}
+
+// Instanciando um painel solar com potência máxima de 250W e eficiência de 80%
+const painel1 = new PainelSolar(250, 0.8);
+
+// Calculando a energia gerada pelo painel em um dia com duração de 12 horas
+const energiaGerada = painel1.calcularEnergiaGerada(12);
+
+console.log(`O painel gerou ${energiaGerada} Wh de energia em um dia.`);
+---------------------------------------------------------------------------------
+
+// cria um array para armazenar os dados anteriores
+let dadosAnteriores = [];
+
+// função para adicionar dados na lista de dados anteriores
+function adicionarDadosAnteriores(dados) {
+  dadosAnteriores.push(dados);
+}
+
+// função para exibir os dados anteriores em uma nova aba
+function exibirDadosAnteriores() {
+  // cria uma nova aba no navegador
+  let aba = window.open();
+  // adiciona os dados anteriores na nova aba
+  aba.document.write("<h1>Dados Anteriores</h1>");
+  for(let i = 0; i < dadosAnteriores.length; i++) {
+    aba.document.write("<p>" + JSON.stringify(dadosAnteriores[i]) + "</p>");
+  }
+}
+
+// função para enviar relatórios automáticos
+function enviarRelatoriosAutomaticos(dados) {
+  // código para enviar os relatórios automaticamente para os destinatários desejados
+  // ...
+}
+
+---------------------------------------------------------------------------------
+import pandas as pd
+import numpy as np
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import r2_score
+import matplotlib.pyplot as plt
+
+# Carregando dados
+df = pd.read_csv('dados_solar_tecnologia.csv')
+
+# Análise exploratória de dados
+print(df.describe())
+
+# Visualização de dados
+df.plot(x='Data', y='Producao_Energia', kind='line')
+plt.show()
+
+# Treinando modelo de regressão linear
+X = df[['Producao_Fotovoltaica', 'Irradiacao_Solar']]
+y = df['Producao_Energia']
+regressor = LinearRegression()
+regressor.fit(X, y)
+
+# Avaliando desempenho do modelo
+y_pred = regressor.predict(X)
+r2 = r2_score(y, y_pred)
+print('R2 score:', r2)
+
+# Previsão de produção de energia para um novo dia
+novos_dados = np.array([[2000, 8]]) # Produção fotovoltaica e irradiância solar
+prev_energia = regressor.predict(novos_dados)
+print('Previsão de energia:', prev_energia)
+
+----------------------------------------------------------------------------------
+
+import pandas as pd
+
+# URL do arquivo CSV com os dados da Rede Sonda do INPE
+url = 'https://www.dgi.inpe.br/Catalogo/Download?nodeId=MXNVmWeB9TW4Ltmqad8lmg'
+
+# Ler o arquivo CSV e armazenar as informações em um DataFrame
+df = pd.read_csv(url, sep=';', encoding='latin-1')
+
+# Exibir as primeiras 5 linhas do DataFrame
+print(df.head())
+
+-----------------------------------------------------------------------------------
+
+!pip install pandas numpy
+
+import pandas as pd
+
+# Carrega os dados da rede sonda INPE
+df_inpe = pd.read_csv('caminho/para/os/dados/inpe.csv')
+
+# Carrega os dados da rede sonda CCST
+df_ccst = pd.read_csv('caminho/para/os/dados/ccst.csv')
+
+-----------------------------------------------------------------------------------
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+df = pd.read_csv('dados_solar.csv')
+
+print(df.describe())
+
+
+plt.plot(df['hora'], df['potencia'])
+plt.xlabel('Hora')
+plt.ylabel('Potência (kW)')
+plt.title('Produção de Energia Solar')
+plt.show()
+
+from sklearn.linear_model import LinearRegression
+
+X = df[['temperatura', 'irradiacao']]
+y = df['potencia']
+
+lr = LinearRegression()
+lr.fit(X, y)
+
+novos_dados = np.array([[20, 800], [25, 900]])
+previsao = lr.predict(novos_dados)
+
+print(previsao)
+
+
+from sklearn.cluster import KMeans
+
+X = df[['temperatura', 'irradiacao']]
+
+kmeans = KMeans(n_clusters=2)
+kmeans.fit(X)
+
+predicao = kmeans.predict(X)
+
+plt.scatter(X['temperatura'], X['irradiacao'], c=predicao)
+plt.xlabel('Temperatura')
+plt.ylabel('Irradiação')
+plt.title('Detecção de Anomalias')
+plt.show()
+
+
+
